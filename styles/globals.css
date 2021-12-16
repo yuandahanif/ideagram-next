@@ -11,3 +11,10 @@
     @apply bg-slate-100;
   }
 }
+
+.banner {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top;
+  background-image: url(https://live.staticflickr.com/4878/44376148030_a7385704c0_b.jpg);
+}

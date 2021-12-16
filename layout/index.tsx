@@ -10,7 +10,7 @@ const Layout: NextPage = ({ children }) => {
         <Header />
         <div className="flex-grow flex relative">
           <Sidebar />
-          <main className="rounded-md shadow-sm bg-white px-4 mt-4 mb-2 max-w-screen-xl ml-auto w-full">
+          <main className="rounded-md overflow-hidden shadow-sm mt-4 mb-2 max-w-screen-xl ml-auto w-full">
             {children}
           </main>
         </div>
