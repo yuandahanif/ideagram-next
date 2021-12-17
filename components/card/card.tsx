@@ -21,7 +21,7 @@ const Card = () => {
 
         <div className="mt-2 flex-grow flex flex-col text-slate-800">
           <div className="mb-1">
-            <Link href="#" passHref>
+            <Link href="/detail/1" passHref>
               <a className="prose prose-xl font-semibold line-clamp-1 pointer hover:underline">
                 White faced Scops owl: Autillo Cariblanco (Ptilopsis leucotis)
               </a>
@@ -38,7 +38,7 @@ const Card = () => {
           <span className="ml-auto text-right text-sm">Dibuat: 20-9-2023</span>
 
           <div className="mt-auto">
-            <span className="text-sm">Progress target pengalangan dana:</span>
+            <span className="text-sm">Progress pengalangan dana:</span>
             <Progress />
           </div>
         </div>

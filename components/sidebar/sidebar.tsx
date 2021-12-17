@@ -3,7 +3,7 @@ import Link from "next/link";
 const Sidebar = () => {
   return (
     <>
-      <aside className="bg-white shadow-md border border-gray-100 mr-3 mb-2 mt-4 rounded-md max-w-sm w-full max-h-screen h-max sticky top-4 py-4 text-center text-slate-800 text-sm">
+      <aside className="bg-white shadow-sm border border-gray-100 mr-3 mb-2 mt-4 rounded-md max-w-sm w-full max-h-screen h-max sticky top-4 py-4 text-center text-slate-800 text-sm">
         <nav className="pb-0">
           <Link href="#" passHref>
             <a className="text-2xl font-semibold block w-4/5 mx-auto py-3">
@@ -36,7 +36,7 @@ const Sidebar = () => {
           </ul>
 
           <Link href="#" passHref>
-            <a className="text-xl hover:text-slate-500 text-slate-800 duration-300 mt-96 inline-block filter-none mx-auto py-3">
+            <a className="text-lg hover:text-slate-500 text-slate-800 duration-300 mt-96 inline-block filter-none mx-auto py-3">
               Logout
             </a>
           </Link>

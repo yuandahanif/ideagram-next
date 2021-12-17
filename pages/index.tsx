@@ -12,12 +12,12 @@ const Home: NextPage = () => {
       <Layout>
         <div className="h-96 rounded-md bg-zinc-50 banner flex items-center justify-center">
           <h1 className="text-white text-4xl font-semibold ml-96 pl-20 drop-shadow-lg">
-            Hehe, Tubes dah mepet
+            Hehe, Tubes dah mepet ya
           </h1>
         </div>
         <div className="px-4 rounded-md bg-white mt-5 p-2">
           <h2 className="text-2xl font-semibold text-slate-800 mb-4">
-            Ini apa ya?
+            Gamabr burung
           </h2>
 
           <div className="grid grid-cols-3 grid-flow-row gap-3">
