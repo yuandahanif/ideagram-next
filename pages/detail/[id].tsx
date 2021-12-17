@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Comment from "../../components/comment";
 import Gallery from "../../components/gallery";
 import Progress from "../../components/progress/progress";
 import Layout from "../../layout";
@@ -65,7 +66,10 @@ const Detail: NextPage = () => {
                 </p>
               </div>
             </div>
-            <div className="px-4 bg-white rounded-md p-2 mb-4">ini komen</div>
+            <div className="px-4 bg-white rounded-md p-2 mb-4">
+              <h2 className="text-lg font-semibold mb-2">komentar</h2>
+              <Comment/>
+            </div>
           </div>
 
           <div className="w-3/12">
