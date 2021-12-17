@@ -15,9 +15,9 @@ const Gallery = ({ images }: Props) => {
 
   return (
     <>
-      <div className="h-96 rounded-md bg-zinc-50 flex items-start justify-start">
+      <div className="h-96 rounded-md flex items-start justify-start">
         <div
-          className={`rounded-md h-full ${
+          className={`rounded-md h-full ring-slate-200 ring-1 ${
             images.length > 3 ? "w-4/6" : "w-5/6"
           } overflow-hidden mr-3 bg-red-300`}
         >

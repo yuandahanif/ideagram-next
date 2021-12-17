@@ -1,6 +1,17 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  PinterestShareButton,
+  PinterestIcon,
+  RedditShareButton,
+  RedditIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+} from "next-share";
 import { useRouter } from "next/router";
 import Comment from "../../components/comment";
 import Gallery from "../../components/gallery";
@@ -31,9 +42,52 @@ const Detail: NextPage = () => {
         <div className="flex  mt-5 ">
           <div className="w-9/12 mr-5">
             <div className="px-4 bg-white rounded-md p-2 mb-4 text-slate-800">
-              <span className="text-3xl font-semibold mb-4 inline-block">
+              <span className="text-3xl font-semibold mb-2 inline-block">
                 Ptilopsis
               </span>
+
+              <div className="flex gap-x-4 mb-4">
+                <div className="flex gap-x-1 text-center bg-teal-600 p-1.5 px-2 rounded-full text-white">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span>Pelestarian Satwa</span>
+                </div>
+                <div className="flex gap-x-1 text-center bg-orange-500 p-1.5 px-2 rounded-full text-white">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  <span>Yogyakarta</span>
+                </div>
+              </div>
 
               <div>
                 <p className="">
@@ -68,7 +122,7 @@ const Detail: NextPage = () => {
             </div>
             <div className="px-4 bg-white rounded-md p-2 mb-4">
               <h2 className="text-lg font-semibold mb-2">komentar</h2>
-              <Comment/>
+              <Comment />
             </div>
           </div>
 
@@ -110,6 +164,35 @@ const Detail: NextPage = () => {
               <button className="bg-green-500 hover:bg-green-600 duration-300 p-2 w-full text-white rounded-sm">
                 Donasi
               </button>
+
+              <div className="mt-5 flex items-center">
+                <span>Bagikan ke</span>
+                <div className="ml-auto flex gap-x-2">
+                  <FacebookShareButton url={"http://localhost:3000"}>
+                    <FacebookIcon size={24} round />
+                  </FacebookShareButton>
+                  <WhatsappShareButton url={"http://localhost:3000"}>
+                    <WhatsappIcon size={24} round />
+                  </WhatsappShareButton>
+
+                  <button>
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
 
             <div className="px-4 bg-white rounded-md p-2 pb-4 mb-4">
