@@ -3,14 +3,8 @@ import Head from "next/head";
 import {
   FacebookShareButton,
   FacebookIcon,
-  PinterestShareButton,
-  PinterestIcon,
-  RedditShareButton,
-  RedditIcon,
   WhatsappShareButton,
   WhatsappIcon,
-  LinkedinShareButton,
-  LinkedinIcon,
 } from "next-share";
 import { useRouter } from "next/router";
 import Comment from "../../components/comment";
@@ -47,7 +41,7 @@ const Detail: NextPage = () => {
               </span>
 
               <div className="flex gap-x-4 mb-4">
-                <div className="flex gap-x-1 text-center bg-teal-600 p-1.5 px-2 rounded-full text-white">
+                <div className="flex gap-x-1 items-center text-center bg-teal-600 p-1.5 px-2  pr-3 rounded-full text-white">
                   <svg
                     className="w-6 h-6"
                     fill="none"
@@ -62,9 +56,9 @@ const Detail: NextPage = () => {
                       d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  <span>Pelestarian Satwa</span>
+                  <span className="text-sm">Pelestarian Satwa</span>
                 </div>
-                <div className="flex gap-x-1 text-center bg-orange-500 p-1.5 px-2 rounded-full text-white">
+                <div className="flex gap-x-1 items-center text-center bg-orange-500 p-1.5 px-2 pr-3 rounded-full text-white">
                   <svg
                     className="w-6 h-6"
                     fill="none"
@@ -85,7 +79,7 @@ const Detail: NextPage = () => {
                       d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                     />
                   </svg>
-                  <span>Yogyakarta</span>
+                  <span className="text-sm">Yogyakarta</span>
                 </div>
               </div>
 
@@ -203,7 +197,7 @@ const Detail: NextPage = () => {
               <div className="grid grid-cols-1 grid-flow-row gap-y-3">
                 <div className="border border-slate-600 p-2 rounded-sm">
                   <span className="text-lg font-semibold line-clamp-2 mb-2">
-                    Rumah baru untuk ptilopsos
+                    Rumah baru untuk ptilopsis
                   </span>
 
                   <p className="prose prose-sm mb-4">

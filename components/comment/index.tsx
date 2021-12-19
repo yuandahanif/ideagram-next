@@ -10,7 +10,7 @@ const Comment = ({}: Props) => {
       <div className="flex flex-col">
         <div className="mb-3">
           <form className="flex flex-col">
-            <textarea className="border rounded-md border-slate-800 w-full h-20 mb-2"></textarea>
+            <textarea className="border rounded-md border-slate-800 w-full h-20 mb-2 p-2"></textarea>
             <button
               className="ml-auto rounded-md bg-blue-400 p-2 px-6 text-white hover:bg-blue-500 duration-200"
               type="button"
