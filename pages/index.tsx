@@ -1,9 +1,14 @@
 import type { NextPage } from "next";
+import { useQuery } from "react-query";
 import Head from "next/head";
 import Card from "../components/card/card";
 import Layout from "../layout";
+import { getAllIdea } from "../libs/api/idea";
+import { Idea } from "../types/Idea";
 
 const Home: NextPage = () => {
+  const ideas = useQuery("ideas", getAllIdea);
+  console.log("file: index.tsx ~ line 11 ~ ideas", ideas);
   return (
     <>
       <Head>
@@ -62,11 +67,10 @@ const Home: NextPage = () => {
           </h2>
 
           <div className="grid grid-cols-3 grid-flow-row gap-3">
-            {[
-              1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-            ].map((v) => {
-              return <Card key={v} />;
-            })}
+            {ideas.isSuccess &&
+              ideas.data.map((idea: Idea) => {
+                return <Card key={idea.id} />;
+              })}
           </div>
         </div>
       </Layout>
