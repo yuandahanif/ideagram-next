@@ -3,7 +3,7 @@ import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 
 const Sidebar = () => {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   return (
     <>
       <aside className="bg-white shadow-sm border border-gray-100 mr-3 mb-2 mt-4 rounded-md max-w-sm w-full max-h-screen h-max sticky top-4 py-4 text-center text-slate-800 text-sm">

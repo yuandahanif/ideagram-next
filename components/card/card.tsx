@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { formatRupiah } from "../../libs/helpers";
 import { Idea } from "../../types/Idea";
 import Progress from "../progress/progress";
 
@@ -8,7 +9,6 @@ interface Props {
 }
 
 const Card = ({ idea }: Props) => {
-  console.log("file: card.tsx ~ line 11 ~ Card ~ idea", idea);
   return (
     <>
       <div className="max-w-sm w-full flex flex-col shadow-md border border-gray-100 rounded-md p-2">
@@ -57,7 +57,9 @@ const Card = ({ idea }: Props) => {
 
           <div className="">
             <span className="text-sm">Target: </span>{" "}
-            <span className="text-sm">Rp. {idea.donation_target}</span>
+            <span className="text-sm">
+              {formatRupiah(idea.donation_target)}
+            </span>
             {/* <Progress /> */}
           </div>
         </div>

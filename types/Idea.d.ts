@@ -22,5 +22,4 @@ export interface Idea {
   category?: Category;
   images?: Image[];
   feedbacks?: Feedback[];
-  comments?: Comment[];
 }

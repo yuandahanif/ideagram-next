@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { MouseEvent, useState } from "react";
+import { Image as ImageType } from "../../types/Image";
 
 interface Props {
-  images: string[];
+  images: ImageType[];
 }
 
 const Gallery = ({ images }: Props) => {
-  const [previedImg, setPreviedImg] = useState(images[0]);
+  const [previedImg, setPreviedImg] = useState(images[0].url);
 
   const onThumbnailClick = (e: MouseEvent, src: string) => {
     e.preventDefault();
@@ -36,22 +37,22 @@ const Gallery = ({ images }: Props) => {
             images.length > 3 ? "grid-cols-2  w-2/6" : "grid-cols-1  w-1/6"
           } grid-flow-row gap-3`}
         >
-          {images.map((src) => (
+          {images.map((img) => (
             <div
               className="rounded-md overflow-hidden relative"
-              onClick={(e) => onThumbnailClick(e, src)}
-              key={src}
+              onClick={(e) => onThumbnailClick(e, img.url)}
+              key={img.id}
             >
               <Image
                 draggable="false"
-                src={src}
+                src={img.url}
                 className="object-cover object-center"
                 layout="responsive"
                 width={50}
                 height={50}
                 alt="owl"
               />
-              {src === previedImg && (
+              {img.url === previedImg && (
                 <div className="absolute bg-gray-700 bg-opacity-50 top-0 left-0 right-0 bottom-0 flex items-center justify-center">
                   <span className="text-white">preview</span>
                 </div>

@@ -5,10 +5,12 @@ import Card from "../components/card/card";
 import Layout from "../layout";
 import { getAllIdea } from "../libs/api/idea";
 import { Idea } from "../types/Idea";
+import { useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
   const ideas = useQuery("ideas", getAllIdea);
-  console.log("file: index.tsx ~ line 11 ~ ideas", ideas);
+  const { status } = useSession();
+
   return (
     <>
       <Head>
@@ -54,9 +56,9 @@ const Home: NextPage = () => {
             Ide Terpopuler
           </h2>
 
-          <div className="grid grid-cols-3 grid-flow-row gap-3">
+          <div className="grid grid-cols-4 grid-flow-row gap-3">
             {ideas.isSuccess &&
-              [ideas.data[0], ideas.data[1], ideas.data[2]].map(
+              [ideas.data[0], ideas.data[1], ideas.data[2], ideas.data[3]].map(
                 (idea: Idea) => {
                   return <Card idea={idea} key={idea.id} />;
                 }
@@ -69,7 +71,11 @@ const Home: NextPage = () => {
             Ide Terbaru
           </h2>
 
-          <div className="grid grid-cols-3 grid-flow-row gap-3">
+          <div
+            className={`grid grid-flow-row gap-3 ${
+              status === "authenticated" ? "grid-cols-3" : "grid-cols-4"
+            }`}
+          >
             {ideas.isSuccess &&
               ideas.data.map((idea: Idea) => {
                 return <Card idea={idea} key={idea.id} />;
