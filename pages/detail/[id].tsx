@@ -18,9 +18,12 @@ import { useEffect, useState } from "react";
 import { Idea } from "../../types/Idea";
 import { Comment as CommentType } from "../../types/comment";
 import { formatRupiah } from "../../libs/helpers";
+import { createComment } from "../../libs/api/comment";
+import { useSession } from "next-auth/react";
 
 const Detail = ({ id }: { id: any }) => {
-  // const queryClient = useQueryClient();
+  const { data: session } = useSession();
+  const queryClient = useQueryClient();
   const {
     data: idea,
     isError,
@@ -30,6 +33,25 @@ const Detail = ({ id }: { id: any }) => {
   const { data: comments } = useQuery<any, unknown, any>("comments", () =>
     getComments(id)
   );
+
+  const postCommentToApi = useMutation(
+    (body: object) =>
+      createComment(body, {
+        Authorization: `Bearer ${session?.access_token}`,
+      }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("comments");
+      },
+    }
+  );
+
+  const postComment = (comment: string) => {
+    postCommentToApi.mutate({
+      idea_id: id,
+      comment,
+    });
+  };
 
   if (isSuccess) {
     return (
@@ -101,8 +123,8 @@ const Detail = ({ id }: { id: any }) => {
               </div>
               <div className="px-4 bg-white rounded-md p-2 mb-4">
                 <h2 className="text-lg font-semibold mb-2">komentar</h2>
-                {comments?.data?.length ? (
-                  <Comment comments={comments.data} />
+                {comments?.length ? (
+                  <Comment comments={comments} onComment={postComment} />
                 ) : (
                   "Komentar ditutup"
                 )}

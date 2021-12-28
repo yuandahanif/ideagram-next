@@ -1,16 +1,21 @@
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { MouseEvent } from "react";
+import React, { FormEvent, MouseEvent } from "react";
 import { Comment } from "../../types/comment";
 
 type Props = {
   comments: Comment[];
+  onComment: (e: string) => void;
 };
 
-const Comment = ({ comments }: Props) => {
-  const onCreateComment = (e: MouseEvent) => {
+const Comment = ({ comments, onComment }: Props) => {
+  const { status } = useSession();
+
+  const onSubmitComment = (e: FormEvent) => {
     e.preventDefault();
-    alert("masih todo, udah ada sih endpoint nya, tapi . . . .");
+    onComment((e.target as any).comment.value as string);
+    (e.target as any).comment.value = "";
   };
 
   const onCreateReply = (e: MouseEvent) => {
@@ -21,16 +26,28 @@ const Comment = ({ comments }: Props) => {
     <>
       <div className="flex flex-col">
         <div className="mb-3">
-          <form className="flex flex-col">
-            <textarea className="border rounded-md border-slate-800 w-full h-20 mb-2 p-2"></textarea>
-            <button
-              onClick={onCreateComment}
-              className="ml-auto rounded-md bg-blue-400 p-2 px-6 text-white hover:bg-blue-500 duration-200"
-              type="button"
-            >
-              Kirim
-            </button>
-          </form>
+          {status === "authenticated" ? (
+            <form className="flex flex-col" onSubmit={onSubmitComment}>
+              <textarea
+                name="comment"
+                className="border rounded-md border-slate-800 w-full h-20 mb-2 p-2"
+              ></textarea>
+              <button
+                className="ml-auto rounded-md bg-blue-400 p-2 px-6 text-white hover:bg-blue-500 duration-200"
+                type="submit"
+              >
+                Kirim
+              </button>
+            </form>
+          ) : (
+            <div>
+              <Link href="/auth/login" passHref>
+                <a className="underline text-center w-full block">
+                  Masuk untuk membuat komentar
+                </a>
+              </Link>
+            </div>
+          )}
         </div>
 
         <h2 className="text-lg font-semibold mb-2">Komentar terbaru</h2>
