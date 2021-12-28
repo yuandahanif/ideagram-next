@@ -1,13 +1,16 @@
 import Link from "next/link";
+import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 const Sidebar = () => {
+  const { data: session, status } = useSession();
   return (
     <>
       <aside className="bg-white shadow-sm border border-gray-100 mr-3 mb-2 mt-4 rounded-md max-w-sm w-full max-h-screen h-max sticky top-4 py-4 text-center text-slate-800 text-sm">
         <nav className="pb-0">
           <Link href="#" passHref>
             <a className="text-2xl font-semibold block w-4/5 mx-auto py-3">
-              Owwl
+              Ideagram
             </a>
           </Link>
 
@@ -125,8 +128,11 @@ const Sidebar = () => {
             </li>
           </ul>
 
-          <Link href="#" passHref>
-            <a className="flex gap-x-2 items-center justify-center w-max text-lg hover:text-slate-500 text-slate-800 duration-300 mt-96 filter-none mx-auto py-3">
+          {status === "authenticated" ? (
+            <button
+              onClick={() => signOut({ redirect: false })}
+              className="flex gap-x-2 items-center justify-center w-max text-lg hover:text-slate-500 text-slate-800 duration-300 mt-96 filter-none mx-auto py-3"
+            >
               <svg
                 className="w-6 h-6"
                 fill="none"
@@ -142,8 +148,10 @@ const Sidebar = () => {
                 />
               </svg>
               Logout
-            </a>
-          </Link>
+            </button>
+          ) : (
+            <span className="flex mt-96"></span>
+          )}
         </nav>
       </aside>
     </>
