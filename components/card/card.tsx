@@ -1,45 +1,64 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Idea } from "../../types/Idea";
 import Progress from "../progress/progress";
 
-const Card = () => {
+interface Props {
+  idea: Idea;
+}
+
+const Card = ({ idea }: Props) => {
+  console.log("file: card.tsx ~ line 11 ~ Card ~ idea", idea);
   return (
     <>
       <div className="max-w-sm w-full flex flex-col shadow-md border border-gray-100 rounded-md p-2">
         <div className="rounded-md overflow-hidden">
-          <Image
-            src={
-              "https://live.staticflickr.com/1914/30477687977_a7e714e3fa.jpg"
-            }
-            className="object-cover object-center"
-            layout="responsive"
-            width={100}
-            height={60}
-            alt="owl"
-          />
+          {idea.images?.length ? (
+            <Image
+              src={idea.images[0]?.url}
+              className="object-cover object-center"
+              layout="responsive"
+              width={100}
+              height={60}
+              alt={idea.name}
+            />
+          ) : (
+            <Image
+              src={
+                "https://live.staticflickr.com/1914/30477687977_a7e714e3fa.jpg"
+              }
+              className="object-cover object-center"
+              layout="responsive"
+              width={100}
+              height={60}
+              alt={idea.name}
+            />
+          )}
         </div>
 
         <div className="mt-2 flex-grow flex flex-col text-slate-800">
           <div className="mb-1">
-            <Link href="/detail/1" passHref>
+            <Link href={`/detail/${idea.id}`} passHref>
               <a className="prose prose-xl font-semibold line-clamp-1 pointer hover:underline">
-                White faced Scops owl: Autillo Cariblanco (Ptilopsis leucotis)
+                {idea.name}
               </a>
             </Link>
-            <p className="prose prose-sm line-clamp-4">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta
-              pariatur libero eos vel? Incidunt itaque facere pariatur molestias
-              aliquid aut ducimus sint, adipisci iste nihil cum ut. Nesciunt,
-              aliquid aut ducimus sint, adipisci iste nihil cum ut. Nesciunt,
-              laborum ex?
-            </p>
+            <p className="prose prose-sm line-clamp-4">{idea.description}</p>
           </div>
 
-          <span className="ml-auto text-right text-sm">Dibuat: 20-9-2023</span>
+          <div className="mt-auto flex justify-between border-t pt-1">
+            <div className="text-sm text-left h-min w-44">
+              <span className="line-clamp-1">Oleh: {idea.owner?.name}</span>
+            </div>
+            <span className="text-right text-sm">
+              Dibuat: {(idea.created_at + "").split("T")[0]}
+            </span>
+          </div>
 
-          <div className="mt-auto">
-            <span className="text-sm">Progress pengalangan dana:</span>
-            <Progress />
+          <div className="">
+            <span className="text-sm">Target: </span>{" "}
+            <span className="text-sm">Rp. {idea.donation_target}</span>
+            {/* <Progress /> */}
           </div>
         </div>
       </div>

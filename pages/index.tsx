@@ -55,9 +55,12 @@ const Home: NextPage = () => {
           </h2>
 
           <div className="grid grid-cols-3 grid-flow-row gap-3">
-            {[1, 2, 3].map((v) => {
-              return <Card key={v} />;
-            })}
+            {ideas.isSuccess &&
+              [ideas.data[0], ideas.data[1], ideas.data[2]].map(
+                (idea: Idea) => {
+                  return <Card idea={idea} key={idea.id} />;
+                }
+              )}
           </div>
         </div>
 
@@ -69,7 +72,7 @@ const Home: NextPage = () => {
           <div className="grid grid-cols-3 grid-flow-row gap-3">
             {ideas.isSuccess &&
               ideas.data.map((idea: Idea) => {
-                return <Card key={idea.id} />;
+                return <Card idea={idea} key={idea.id} />;
               })}
           </div>
         </div>
