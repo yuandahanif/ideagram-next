@@ -1,24 +1,29 @@
 import { useEffect, useState } from "react";
 
-const Progress = () => {
+interface Props {
+  prgress: number;
+}
+
+const Progress = ({ prgress }: Props) => {
   const [progressClassName, setProgressClassName] = useState("w-0");
 
   useEffect(() => {
-    const r = Math.random();
-    if (r > 0.8) {
+    if (prgress >= 100) {
+      setProgressClassName("w-full");
+    } else if (prgress > 80) {
       setProgressClassName("w-5/6");
-    } else if (r > 0.6) {
+    } else if (prgress > 60) {
       setProgressClassName("w-4/6");
-    } else if (r > 0.5) {
+    } else if (prgress > 50) {
       setProgressClassName("w-3/6");
-    } else if (r > 0.3) {
+    } else if (prgress > 30) {
       setProgressClassName("w-2/6");
-    } else if (r > 0.1) {
+    } else if (prgress > 10) {
       setProgressClassName("w-1/6");
     } else {
       setProgressClassName("w-1");
     }
-  }, []);
+  }, [prgress]);
 
   return (
     <>

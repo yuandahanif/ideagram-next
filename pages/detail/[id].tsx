@@ -16,7 +16,6 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getComments, getIdeaById } from "../../libs/api/idea";
 import { useEffect, useState } from "react";
 import { Idea } from "../../types/Idea";
-import { Comment as CommentType } from "../../types/comment";
 import { formatRupiah } from "../../libs/helpers";
 import { createComment } from "../../libs/api/comment";
 import { useSession } from "next-auth/react";
@@ -141,7 +140,9 @@ const Detail = ({ id }: { id: any }) => {
                     {formatRupiah(idea.donation_total)}/
                     {formatRupiah(idea.donation_target)}
                   </span>
-                  <Progress />
+                  <Progress
+                    prgress={(idea.donation_total / idea.donation_target) * 100}
+                  />
                 </div>
 
                 <span className="text-center block text-xl">Beri donasi: </span>

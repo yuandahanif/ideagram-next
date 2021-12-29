@@ -1,10 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import { useQuery } from "react-query";
 
 const Header = () => {
   const { data: session, status } = useSession();
+
+  const user = useQuery(
+    "me",
+    async () => {
+      const response = await fetch("/api/user/me");
+      if (!response.ok) {
+        signOut({ redirect: false });
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    },
+    {
+      refetchInterval: 60 * 10 * 1000,
+    }
+  );
+
   return (
     <>
       <header className="px-8 py-4 rounded-b-md shadow-sm bg-white">
