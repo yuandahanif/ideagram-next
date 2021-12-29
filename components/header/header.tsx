@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 const Header = () => {
   const { data: session, status } = useSession();
 
-  const user = useQuery(
+  useQuery(
     "me",
     async () => {
       const response = await fetch("/api/user/me");
