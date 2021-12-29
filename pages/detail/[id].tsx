@@ -23,6 +23,7 @@ import { makeDonation } from "../../libs/api/donation";
 
 const Detail = ({ id }: { id: any }) => {
   const { data: session } = useSession();
+  console.log("file: [id].tsx ~ line 26 ~ Detail ~ session", session);
   const queryClient = useQueryClient();
   const {
     data: idea,
@@ -192,7 +193,9 @@ const Detail = ({ id }: { id: any }) => {
                       type="number"
                       name="amount"
                       min={
-                        idea.feedbacks ? idea.feedbacks[0].donation_min : 10000
+                        idea.feedbacks?.length
+                          ? idea.feedbacks[0]?.donation_min
+                          : 10000
                       }
                       className="block border-l-2 border-slate-400 focus-within:border-slate-700 w-full p-2 focus:outline-0"
                       placeholder="Nominal Donasi"
@@ -209,10 +212,10 @@ const Detail = ({ id }: { id: any }) => {
                 <div className="mt-5 flex items-center">
                   <span>Bagikan ke</span>
                   <div className="ml-auto flex gap-x-2">
-                    <FacebookShareButton url={"http://localhost:3000"}>
+                    <FacebookShareButton url={window.location.href}>
                       <FacebookIcon size={24} round />
                     </FacebookShareButton>
-                    <WhatsappShareButton url={"http://localhost:3000"}>
+                    <WhatsappShareButton url={window.location.href}>
                       <WhatsappIcon size={24} round />
                     </WhatsappShareButton>
 
