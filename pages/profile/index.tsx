@@ -45,10 +45,11 @@ const Profile: CustomNextPage = () => {
           </div>
 
           <div className="mt-2">
-            <span>{query.data.length} Ide di unggah</span> |{" "}
+            <span>{query.isSuccess && query.data.length} Ide di bagikan</span> |{" "}
             <span>
               {formatRupiah((session?.user as any).balance)} di dalam saku
-            </span>
+            </span>{" "}
+            | <span>Bergabung pada {(session?.user as any).created_at.split("T")[0]}</span>
           </div>
         </div>
 

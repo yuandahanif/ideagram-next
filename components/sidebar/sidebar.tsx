@@ -38,7 +38,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <Link href="#2" passHref>
+              <Link href="/idea/create" passHref>
                 <a className="flex gap-x-2 items-center w-11/12 focus:bg-gray-100 rounded-md px-3 mx-auto py-2 mb-1 text-lg focus:font-semibold hover:text-slate-500 transition-colors duration-200">
                   <svg
                     className="w-6 h-6"
