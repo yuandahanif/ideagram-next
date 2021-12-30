@@ -33,4 +33,17 @@ const getCurerentUserWithIdea = async (header: HeadersInit) => {
   }
 };
 
-export { getCurerentUser, getCurerentUserWithIdea };
+const getOtherUserWithIdea = async (id: number) => {
+  try {
+    const data = await fetch(url + `users/${id}/idea`, {
+      method: "GET",
+    });
+
+    const json = await data.json();
+    return json;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export { getCurerentUser, getCurerentUserWithIdea, getOtherUserWithIdea };

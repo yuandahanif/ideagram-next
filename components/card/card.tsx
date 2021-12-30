@@ -48,7 +48,11 @@ const Card = ({ idea }: Props) => {
 
           <div className="mt-auto flex justify-between border-t pt-1">
             <div className="text-sm text-left h-min w-28">
-              <span className="line-clamp-1">Oleh: {idea.owner?.name}</span>
+              {idea.owner && (
+                <Link href={"/profile/" + idea.owner?.id}>
+                  <a className="line-clamp-1 hover:underline">Oleh: {idea.owner?.name}</a>
+                </Link>
+              )}
             </div>
             <span className="text-right text-sm">
               Dibuat: {(idea.created_at + "").split("T")[0]}

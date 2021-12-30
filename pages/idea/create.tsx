@@ -1,15 +1,20 @@
 import { nanoid } from "nanoid";
-import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Layout from "../../layout";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
-import { formatRupiah } from "../../libs/helpers";
 import { useSession } from "next-auth/react";
 import Label from "../../components/form/label";
 import Image from "next/image";
 import { CustomNextPage } from "../../types/CustomNextPage";
+import { Location } from "../../types/location";
+import { getAllLocation } from "../../libs/api/location";
+import { getAllCategory } from "../../libs/api/category";
+import { Category } from "../../types/category";
+import { createIdea } from "../../libs/api/idea";
+import { Idea } from "../../types/Idea";
+import { createFeedback } from "../../libs/api/feedback";
 
 interface Feedback {
   id: string;
@@ -20,11 +25,11 @@ interface Feedback {
 }
 
 const Create: CustomNextPage = () => {
+  const route = useRouter();
   const { data: session } = useSession();
-  const queryClient = useQueryClient();
 
   const [feedbacks, setfeedbacks] = useState<Feedback[]>([]);
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<{ file: any; url: string }[]>([]);
 
   const addFeedbackInput = (e: MouseEvent) => {
     e.preventDefault();
@@ -67,67 +72,98 @@ const Create: CustomNextPage = () => {
   const displayImagePreview = (e: ChangeEvent<HTMLInputElement>) => {
     setImages((s) => {
       const files = e.target.files;
-      const url: string[] = [];
+      const url = [];
       if (files!.length > 0) {
         for (let i = 0; i < files!.length; i++) {
-          url.push(URL.createObjectURL(files![i]));
+          url.push({ url: URL.createObjectURL(files![i]), file: files![i] });
         }
       }
       return url;
     });
   };
 
-  // const {
-  //   data: idea,
-  //   isError,
-  //   isSuccess,
-  // } = useQuery<any, unknown, Idea>("idea", () => getIdeaById(id));
+  const locationQuery = useQuery<any, unknown, Location[]>("location", () =>
+    getAllLocation()
+  );
 
-  // const { data: comments } = useQuery<any, unknown, any>("comments", () =>
-  //   getComments(id)
-  // );
+  const categoryQuery = useQuery<any, unknown, Category[]>("category", () =>
+    getAllCategory()
+  );
 
-  // const postCommentToApi = useMutation(
-  //   (body: object) =>
-  //     createComment(body, {
-  //       Authorization: `Bearer ${session?.access_token}`,
-  //     }),
-  //   {
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries("comments");
-  //     },
-  //   }
-  // );
+  const postFeedbackIdeaToApi = useMutation((body: object) =>
+    createFeedback(body, {
+      Authorization: `Bearer ${session?.access_token}`,
+    })
+  );
 
-  // const donateToApi = useMutation(
-  //   (body: object) =>
-  //     makeDonation(body, {
-  //       Authorization: `Bearer ${session?.access_token}`,
-  //     }),
-  //   {
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries("idea");
-  //       alert("berhasil donasi");
-  //     },
-  //   }
-  // );
+  const postImageIdeaToApi = useMutation(
+    async (id: number) => {
+      const formData = new FormData();
 
-  // const postComment = (comment: string) => {
-  //   postCommentToApi.mutate({
-  //     idea_id: id,
-  //     comment,
-  //   });
-  // };
+      images.forEach((f) => {
+        formData.append("photos[]", f.file);
+      });
 
-  // const donate = (e: FormEvent) => {
-  //   e.preventDefault();
+      const response = await fetch(
+        (process.env.NEXT_PUBLIC_API_ENDPOINT as string) + `ideas/${id}/image`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+          body: formData,
+        }
+      );
 
-  //   donateToApi.mutate({
-  //     idea_id: id,
-  //     amount: (e.target as any).amount.value,
-  //   });
-  //   (e.target as any).amount.value = 0;
-  // };
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const { idea } = await response.json();
+      return idea;
+    },
+    {
+      onSuccess: (idea: Idea) => {
+        route.replace("/idea/" + idea.id);
+      },
+    }
+  );
+
+  const postIdeaToApi = useMutation(
+    (body: object) =>
+      createIdea(body, {
+        Authorization: `Bearer ${session?.access_token}`,
+      }),
+    {
+      onSuccess: (data: Idea) => {
+        feedbacks.forEach((f) => {
+          postFeedbackIdeaToApi.mutate({
+            name: f.name,
+            description: f.description,
+            idea_id: data.id,
+            donation_min: f.min_donation,
+          });
+        });
+        postImageIdeaToApi.mutate(data.id);
+      },
+    }
+  );
+
+  const formSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.target as any;
+
+    const dataToPost = {
+      name: form.idea_name.value,
+      description: form.idea_description.value,
+      category_id: form.idea_category.value,
+      location_id: form.idea_location.value,
+      due_date: form.idea_due_date.value,
+      donation_target: form.idea_donation_target.value,
+      user_id: (session?.user as any).id,
+    };
+
+    postIdeaToApi.mutate(dataToPost);
+  };
 
   return (
     <>
@@ -136,7 +172,7 @@ const Create: CustomNextPage = () => {
       </Head>
 
       <Layout withSidebar={false}>
-        <form>
+        <form onSubmit={formSubmit}>
           <div className="flex  mt-5 ">
             <div className="w-9/12 mr-5">
               <div className="px-4 bg-white rounded-md p-2 mb-4 text-slate-800">
@@ -184,8 +220,19 @@ const Create: CustomNextPage = () => {
                           d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
-                      <select className="w-full bg-transparent focus:outline-0 px-2 py-3">
+                      <select
+                        className="w-full bg-transparent focus:outline-0 px-2 py-3"
+                        name="idea_category"
+                      >
                         <option value="">Kategori</option>
+                        {categoryQuery.isSuccess &&
+                          categoryQuery.data?.map((c: Category) => {
+                            return (
+                              <option key={c.id} value={c.id}>
+                                {c.name}
+                              </option>
+                            );
+                          })}
                       </select>
                     </Label>
 
@@ -210,17 +257,28 @@ const Create: CustomNextPage = () => {
                           d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                         />
                       </svg>
-                      <select className="w-full bg-transparent focus:outline-0 px-2 py-3">
+                      <select
+                        className="w-full bg-transparent focus:outline-0 px-2 py-3"
+                        name="idea_location"
+                      >
                         <option value="">Lokasi</option>
+                        {locationQuery.isSuccess &&
+                          locationQuery.data?.map((l: Location) => {
+                            return (
+                              <option key={l.id} value={l.id}>
+                                {l.name}
+                              </option>
+                            );
+                          })}
                       </select>
                     </Label>
                   </div>
 
                   <Label>
                     <textarea
-                      name="description"
+                      name="idea_description"
                       placeholder="Deskripsi"
-                      className="w-full bg-transparent focus:outline-0 px-2 py-3"
+                      className="w-full h-40 bg-transparent focus:outline-0 px-2 py-3"
                     ></textarea>
                   </Label>
 
@@ -241,9 +299,8 @@ const Create: CustomNextPage = () => {
                         />
                       </svg>
                       <input
-                        name="idea_max_date"
+                        name="idea_due_date"
                         type="date"
-                        placeholder="Nama Ide"
                         className="w-full bg-transparent focus:outline-0 px-2 py-3"
                       />
                     </Label>
@@ -263,7 +320,7 @@ const Create: CustomNextPage = () => {
                         />
                       </svg>
                       <input
-                        name="idea_max_donation"
+                        name="idea_donation_target"
                         type="number"
                         placeholder="Target Donasi"
                         className="w-full bg-transparent focus:outline-0 px-2 py-3"
@@ -275,16 +332,18 @@ const Create: CustomNextPage = () => {
                     className="flex flex-col items-center px-2 pt-3 mb-3 rounded-md overflow-hidden border border-slate-300 
       focus-within:border-slate-500 text-slate-300 focus-within:text-slate-500 duration-200"
                   >
-                    <div className="w-full overflow-x-auto">
-                      <div className={`h-full w-max flex gap-x-4`}>
+                    <div className="w-full  overflow-x-auto">
+                      <div
+                        className={`h-full w-max overflow-y-hidden flex gap-x-4`}
+                      >
                         {images.map((img) => (
                           <div
                             className="rounded-md overflow-hidden w-96 h-96"
-                            key={img}
+                            key={img.url}
                           >
                             <Image
                               draggable="false"
-                              src={img}
+                              src={img.url}
                               className="object-cover object-center"
                               layout="responsive"
                               width={50}

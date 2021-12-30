@@ -34,6 +34,25 @@ const getIdeaById = async (id: any) => {
   }
 };
 
+const createIdea = async (body: object, headers: HeadersInit) => {
+  try {
+    const data = await fetch(url, {
+      method: "POST",
+      headers: {
+        ...headers,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    const json = await data.json();
+    const { idea } = json;
+    return idea;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const getComments = async (id: any) => {
   try {
     const data = await fetch(
@@ -54,4 +73,4 @@ const getComments = async (id: any) => {
   }
 };
 
-export { getAllIdea, getIdeaById, getComments };
+export { getAllIdea, getIdeaById, getComments, createIdea };

@@ -19,7 +19,7 @@ const Home: NextPage = () => {
       <Layout>
         <div className="h-96 rounded-md bg-zinc-50 banner flex items-center justify-center">
           <h1 className="text-white text-4xl font-semibold ml-96 pl-20 drop-shadow-lg">
-            Hehe, Tubes dah mepet ya
+            Tempatnya berbagi ide
           </h1>
         </div>
 

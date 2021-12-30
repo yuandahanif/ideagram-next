@@ -142,7 +142,7 @@ const Detail = ({ id }: { id: any }) => {
                 </div>
 
                 <div>
-                  <p className="">{idea.description}</p>
+                  <p className="break-words">{idea.description}</p>
                 </div>
               </div>
               <div className="px-4 bg-white rounded-md p-2 mb-4">
