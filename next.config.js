@@ -8,6 +8,7 @@ module.exports = {
       "live.staticflickr.com",
       "localhost",
       "127.0.0.1",
+      "ui-avatars.com",
     ],
   },
 };

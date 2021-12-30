@@ -32,13 +32,16 @@ const Header = () => {
           <ul className="flex text-base font-normal">
             <li>
               {status === "authenticated" ? (
-                <Link href="#" passHref>
+                <Link href="/profile" passHref>
                   <a className="flex items-center">
                     <span>{session?.user?.name}</span>
                     <div className="w-10 h-10 rounded-full overflow-hidden ml-2 ring-1 object-cover object-center">
                       <Image
-                        src="https://live.staticflickr.com/4205/35047763926_6e8ca0e027_q.jpg"
-                        alt="profile"
+                        src={`https://ui-avatars.com/api/size=128&name=${session?.user?.name?.replaceAll(
+                          " ",
+                          "+"
+                        )}`}
+                        alt={session?.user?.name || "profile"}
                         width={150}
                         height={150}
                       />

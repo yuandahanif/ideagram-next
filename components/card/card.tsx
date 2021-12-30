@@ -38,7 +38,7 @@ const Card = ({ idea }: Props) => {
 
         <div className="mt-2 flex-grow flex flex-col text-slate-800">
           <div className="mb-1">
-            <Link href={`/detail/${idea.id}`} passHref>
+            <Link href={`/idea/${idea.id}`} passHref>
               <a className="prose prose-xl font-semibold line-clamp-1 pointer hover:underline">
                 {idea.name}
               </a>
@@ -47,7 +47,7 @@ const Card = ({ idea }: Props) => {
           </div>
 
           <div className="mt-auto flex justify-between border-t pt-1">
-            <div className="text-sm text-left h-min w-44">
+            <div className="text-sm text-left h-min w-28">
               <span className="line-clamp-1">Oleh: {idea.owner?.name}</span>
             </div>
             <span className="text-right text-sm">

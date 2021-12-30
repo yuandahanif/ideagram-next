@@ -1,8 +1,8 @@
-const url = (process.env.NEXT_PUBLIC_API_ENDPOINT as string) + "auth";
+const url = process.env.NEXT_PUBLIC_API_ENDPOINT as string;
 
 const getCurerentUser = async () => {
   try {
-    const data = await fetch(url + "/user-profile", {
+    const data = await fetch(url + "auth/user-profile", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -16,4 +16,21 @@ const getCurerentUser = async () => {
   }
 };
 
-export { getCurerentUser };
+const getCurerentUserWithIdea = async (header: HeadersInit) => {
+  try {
+    const data = await fetch(url + "users/idea", {
+      method: "GET",
+      headers: {
+        ...header,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const { idea } = await data.json();
+    return idea;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export { getCurerentUser, getCurerentUserWithIdea };

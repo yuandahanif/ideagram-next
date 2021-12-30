@@ -9,7 +9,7 @@ const Sidebar = () => {
     <>
       <aside className="bg-white shadow-sm border border-gray-100 mr-3 mb-2 mt-4 rounded-md max-w-sm w-full max-h-screen h-max sticky top-4 py-4 text-center text-slate-800 text-sm">
         <nav className="pb-0">
-          <Link href="#" passHref>
+          <Link href="/" passHref>
             <a className="text-2xl font-semibold block w-4/5 mx-auto py-3">
               Ideagram
             </a>
@@ -17,7 +17,7 @@ const Sidebar = () => {
 
           <ul className="text-left">
             <li>
-              <Link href="#" passHref>
+              <Link href="/" passHref>
                 <a className="flex gap-x-2 items-center w-11/12 focus:bg-gray-100 rounded-md px-3 mx-auto py-2 mb-1 text-lg focus:font-semibold hover:text-slate-500 transition-colors duration-200">
                   <svg
                     className="w-6 h-6"
@@ -80,7 +80,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <Link href="#2" passHref>
+              <Link href="/profile" passHref>
                 <a className="flex gap-x-2 items-center w-11/12 focus:bg-gray-100 rounded-md px-3 mx-auto py-2 mb-1 text-lg focus:font-semibold hover:text-slate-500 transition-colors duration-200">
                   <svg
                     className="w-6 h-6"
