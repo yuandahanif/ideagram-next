@@ -1,23 +1,12 @@
 import { nanoid } from "nanoid";
-import type { NextPage } from "next";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import {
-  FacebookShareButton,
-  FacebookIcon,
-  WhatsappShareButton,
-  WhatsappIcon,
-} from "next-share";
 import { useRouter } from "next/router";
 import Layout from "../../layout";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getComments, getIdeaById } from "../../libs/api/idea";
-import { FormEvent, MouseEvent, useEffect, useState } from "react";
-import { Idea } from "../../types/Idea";
+import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
 import { formatRupiah } from "../../libs/helpers";
-import { createComment } from "../../libs/api/comment";
 import { useSession } from "next-auth/react";
-import { makeDonation } from "../../libs/api/donation";
 import Label from "../../components/form/label";
 import Image from "next/image";
 import { CustomNextPage } from "../../types/CustomNextPage";
@@ -27,6 +16,7 @@ interface Feedback {
   name: string;
   description: string;
   min_donation: number;
+  [key: string]: any;
 }
 
 const Create: CustomNextPage = () => {
@@ -34,6 +24,7 @@ const Create: CustomNextPage = () => {
   const queryClient = useQueryClient();
 
   const [feedbacks, setfeedbacks] = useState<Feedback[]>([]);
+  const [images, setImages] = useState<string[]>([]);
 
   const addFeedbackInput = (e: MouseEvent) => {
     e.preventDefault();
@@ -54,6 +45,35 @@ const Create: CustomNextPage = () => {
     e.preventDefault();
     setfeedbacks((s) => {
       return [...s.filter((v) => v.id !== id)];
+    });
+  };
+
+  const editFeedback = (id: string, field: string, value: any) => {
+    setfeedbacks((feedbacks) => {
+      return [
+        ...feedbacks.map((feedback) => {
+          if (
+            feedback.id === id &&
+            Object.prototype.hasOwnProperty.call(feedback, field)
+          ) {
+            feedback[field] = value;
+          }
+          return feedback;
+        }),
+      ];
+    });
+  };
+
+  const displayImagePreview = (e: ChangeEvent<HTMLInputElement>) => {
+    setImages((s) => {
+      const files = e.target.files;
+      const url: string[] = [];
+      if (files!.length > 0) {
+        for (let i = 0; i < files!.length; i++) {
+          url.push(URL.createObjectURL(files![i]));
+        }
+      }
+      return url;
     });
   };
 
@@ -116,12 +136,6 @@ const Create: CustomNextPage = () => {
       </Head>
 
       <Layout withSidebar={false}>
-        {/* {idea.images?.length ? (
-          <Gallery images={idea.images} />
-        ) : (
-          "Tidak ada gambar"
-        )} */}
-
         <form>
           <div className="flex  mt-5 ">
             <div className="w-9/12 mr-5">
@@ -262,15 +276,15 @@ const Create: CustomNextPage = () => {
       focus-within:border-slate-500 text-slate-300 focus-within:text-slate-500 duration-200"
                   >
                     <div className="w-full overflow-x-auto">
-                      <div className={`h-full w-max flex`}>
-                        {[1, 2, 3, 4, 5, 6].map((img) => (
+                      <div className={`h-full w-max flex gap-x-4`}>
+                        {images.map((img) => (
                           <div
                             className="rounded-md overflow-hidden w-96 h-96"
                             key={img}
                           >
                             <Image
                               draggable="false"
-                              src="http://127.0.0.1:8000/file/serve/1640807533_vYet_ideag.png"
+                              src={img}
                               className="object-cover object-center"
                               layout="responsive"
                               width={50}
@@ -284,7 +298,8 @@ const Create: CustomNextPage = () => {
 
                     <input
                       multiple
-                      name="idea_max_donation"
+                      name="idea_images"
+                      onChange={displayImagePreview}
                       type="file"
                       placeholder="Target Donasi"
                       className="w-full bg-transparent focus:outline-0 px-2 py-3"
@@ -325,6 +340,10 @@ const Create: CustomNextPage = () => {
                             name="idea_max_donation"
                             type="text"
                             defaultValue={f.name}
+                            onBlur={(e) => {
+                              e.preventDefault();
+                              editFeedback(f.id, "name", e.target.value);
+                            }}
                             placeholder="Nama"
                             className="w-full text-lg bg-transparent placeholder:text-center text-center focus:outline-0 px-2"
                           />
@@ -336,14 +355,26 @@ const Create: CustomNextPage = () => {
                             placeholder="Deskripsi"
                             className="w-full text-sm bg-transparent focus:outline-0"
                             defaultValue={f.description}
+                            onBlur={(e) => {
+                              e.preventDefault();
+                              editFeedback(f.id, "description", e.target.value);
+                            }}
                           ></textarea>
                         </label>
 
                         <label className="block">
                           <input
-                            name="idea_max_donation"
+                            name="min_donation"
                             type="number"
                             defaultValue={f.min_donation}
+                            onBlur={(e) => {
+                              e.preventDefault();
+                              editFeedback(
+                                f.id,
+                                "min_donation",
+                                e.target.value
+                              );
+                            }}
                             placeholder="Minimal Donasi"
                             className="w-full text-sm bg-transparent placeholder:text-center text-center focus:outline-0 px-2"
                           />
