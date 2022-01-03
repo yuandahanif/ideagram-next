@@ -171,7 +171,8 @@ const Detail = ({ id }: { id: any }) => {
                   </span>
                   <Progress
                     prgress={
-                      (idea?.donation_total / idea?.donation_target) * 100
+                      (idea?.donation_total || 0 / idea?.donation_target || 0) *
+                      100
                     }
                   />
                 </div>
