@@ -86,7 +86,7 @@ const Detail = ({ id }: { id: any }) => {
         </Head>
 
         <Layout withSidebar={false}>
-          {idea.images?.length ? (
+          {idea?.images?.length ? (
             <Gallery images={idea.images} />
           ) : (
             "Tidak ada gambar"
