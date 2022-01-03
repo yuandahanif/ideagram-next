@@ -166,11 +166,13 @@ const Detail = ({ id }: { id: any }) => {
                 <div className="mb-4">
                   <span className="text-center block">Terkumpul: </span>
                   <span className="block mx-auto text-center">
-                    {formatRupiah(idea?.donation_total)}/
-                    {formatRupiah(idea?.donation_target)}
+                    {formatRupiah(idea?.donation_total || 0)}/
+                    {formatRupiah(idea?.donation_target || 0)}
                   </span>
                   <Progress
-                    prgress={(idea?.donation_total / idea?.donation_target) * 100}
+                    prgress={
+                      (idea?.donation_total / idea?.donation_target) * 100
+                    }
                   />
                 </div>
 
