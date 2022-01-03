@@ -22,14 +22,7 @@ const Gallery = ({ images }: Props) => {
             images.length > 3 ? "w-4/6" : "w-5/6"
           } overflow-hidden mr-3 bg-red-300`}
         >
-          <Image
-            src={previedImg}
-            className="object-cover object-center"
-            layout="responsive"
-            width={100}
-            height={60}
-            alt="owl"
-          />
+          <img src={previedImg} className="object-cover object-center" />
         </div>
 
         <div
@@ -43,13 +36,10 @@ const Gallery = ({ images }: Props) => {
               onClick={(e) => onThumbnailClick(e, img.url)}
               key={img.id}
             >
-              <Image
+              <img
                 draggable="false"
                 src={img.url}
                 className="object-cover object-center"
-                layout="responsive"
-                width={50}
-                height={50}
                 alt="owl"
               />
               {img.url === previedImg && (
