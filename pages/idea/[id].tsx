@@ -96,12 +96,12 @@ const Detail = ({ id }: { id: any }) => {
             <div className="w-9/12 mr-5">
               <div className="px-4 bg-white rounded-md p-2 mb-4 text-slate-800">
                 <span className="text-3xl font-semibold mb-2 inline-block">
-                  {idea.name}
+                  {idea?.name}
                 </span>
-                {idea.owner && (
-                  <Link href={"/profile/" + idea.owner?.id}>
+                {idea?.owner && (
+                  <Link href={"/profile/" + idea?.owner?.id}>
                     <a className="line-clamp-1 text-sm mb-4 hover:underline">
-                      Oleh: {idea.owner?.name}
+                      Oleh: {idea?.owner?.name}
                     </a>
                   </Link>
                 )}
@@ -122,7 +122,7 @@ const Detail = ({ id }: { id: any }) => {
                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                    <span className="text-sm">{idea.category?.name}</span>
+                    <span className="text-sm">{idea?.category?.name}</span>
                   </div>
                   <div className="flex gap-x-1 items-center text-center bg-orange-500 p-1.5 px-2 pr-3 rounded-full text-white">
                     <svg
@@ -145,12 +145,12 @@ const Detail = ({ id }: { id: any }) => {
                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                       />
                     </svg>
-                    <span className="text-sm">{idea.location?.name}</span>
+                    <span className="text-sm">{idea?.location?.name}</span>
                   </div>
                 </div>
 
                 <div>
-                  <p className="break-words">{idea.description}</p>
+                  <p className="break-words">{idea?.description}</p>
                 </div>
               </div>
               <div className="px-4 bg-white rounded-md p-2 mb-4">
@@ -166,11 +166,11 @@ const Detail = ({ id }: { id: any }) => {
                 <div className="mb-4">
                   <span className="text-center block">Terkumpul: </span>
                   <span className="block mx-auto text-center">
-                    {formatRupiah(idea.donation_total)}/
-                    {formatRupiah(idea.donation_target)}
+                    {formatRupiah(idea?.donation_total)}/
+                    {formatRupiah(idea?.donation_target)}
                   </span>
                   <Progress
-                    prgress={(idea.donation_total / idea.donation_target) * 100}
+                    prgress={(idea?.donation_total / idea?.donation_target) * 100}
                   />
                 </div>
 
@@ -197,7 +197,7 @@ const Detail = ({ id }: { id: any }) => {
                       type="number"
                       name="amount"
                       min={
-                        idea.feedbacks?.length
+                        idea?.feedbacks?.length
                           ? idea.feedbacks[0]?.donation_min
                           : 10000
                       }
@@ -249,7 +249,7 @@ const Detail = ({ id }: { id: any }) => {
                 </h2>
 
                 <div className="grid grid-cols-1 grid-flow-row gap-y-3">
-                  {idea.feedbacks?.map((f) => {
+                  {idea?.feedbacks?.map((f) => {
                     return (
                       <div
                         className="border border-slate-600 p-2 rounded-sm"
