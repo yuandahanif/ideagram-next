@@ -20,6 +20,7 @@ import { formatRupiah } from "../../libs/helpers";
 import { createComment } from "../../libs/api/comment";
 import { useSession } from "next-auth/react";
 import { makeDonation } from "../../libs/api/donation";
+import Link from "next/link";
 
 const Detail = ({ id }: { id: any }) => {
   const { data: session } = useSession();
@@ -97,6 +98,13 @@ const Detail = ({ id }: { id: any }) => {
                 <span className="text-3xl font-semibold mb-2 inline-block">
                   {idea.name}
                 </span>
+                {idea.owner && (
+                  <Link href={"/profile/" + idea.owner?.id}>
+                    <a className="line-clamp-1 text-sm mb-4 hover:underline">
+                      Oleh: {idea.owner?.name}
+                    </a>
+                  </Link>
+                )}
 
                 <div className="flex gap-x-4 mb-4">
                   <div className="flex gap-x-1 items-center text-center bg-teal-600 p-1.5 px-2  pr-3 rounded-full text-white">
@@ -147,11 +155,7 @@ const Detail = ({ id }: { id: any }) => {
               </div>
               <div className="px-4 bg-white rounded-md p-2 mb-4">
                 <h2 className="text-lg font-semibold mb-2">komentar</h2>
-                {comments?.length ? (
-                  <Comment comments={comments} onComment={postComment} />
-                ) : (
-                  "Komentar ditutup"
-                )}
+                <Comment comments={comments} onComment={postComment} />
               </div>
             </div>
 
