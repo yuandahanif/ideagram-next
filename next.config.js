@@ -3,6 +3,7 @@ module.exports = {
   reactStrictMode: true,
   images: {
     domains: [
+      "ideagram-api-expo.herokuapp.com",
       "images.unsplash.com",
       "live.staticflickr.com",
       "live.staticflickr.com",
