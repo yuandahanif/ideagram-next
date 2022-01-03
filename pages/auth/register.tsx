@@ -48,7 +48,7 @@ export default function SignUp({ csrfToken }: { csrfToken: string }) {
       }
     },
     onError: () => {
-      alert("error hayo!");
+      alert("error >///<");
     },
   });
 
